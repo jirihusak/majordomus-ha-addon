@@ -1,3 +1,6 @@
+# Global ARG must be declared before first FROM to be usable in FROM instructions
+ARG BUILD_FROM
+
 # ──────────────────────────────────────────────
 # Stage 1: Build the fat JAR with Maven
 # Source is copied into context by GitHub Actions (CI) or build-local.sh (local dev)
@@ -17,7 +20,6 @@ RUN mvn clean package -DskipTests -q
 # ──────────────────────────────────────────────
 # Stage 2: Runtime image (Home Assistant base)
 # ──────────────────────────────────────────────
-ARG BUILD_FROM
 FROM $BUILD_FROM
 
 # Install a minimal JRE
