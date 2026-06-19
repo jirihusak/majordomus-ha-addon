@@ -1,0 +1,81 @@
+name: Build HA Add-on
+
+on:
+  push:
+    branches: [main, master]
+  release:
+    types: [published]
+  workflow_dispatch:
+
+env:
+  IMAGE_BASE: ghcr.io/jirihusak/majordomus-control
+  # URL of the public source repository containing SW/MajordomusControl/
+  SOURCE_REPO: https://github.com/jirihusak/majordomus.git
+
+jobs:
+  build:
+    name: Build ${{ matrix.arch }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    strategy:
+      matrix:
+        include:
+          - arch: amd64
+            platform: linux/amd64
+            ha_base: amd64
+          - arch: aarch64
+            platform: linux/arm64
+            ha_base: aarch64
+          - arch: armv7
+            platform: linux/arm/v7
+            ha_base: armv7
+
+    steps:
+      - name: Checkout add-on repo
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Clone source repository
+        run: |
+          git clone --depth 1 ${{ env.SOURCE_REPO }} /tmp/majordomus-source
+          cp -r /tmp/majordomus-source/SW/MajordomusControl/src majordomus-control/
+          cp /tmp/majordomus-source/SW/MajordomusControl/pom.xml majordomus-control/
+
+      - name: Get add-on version
+        id: version
+        run: |
+          VERSION=$(grep '^version:' majordomus-control/config.yaml | sed 's/version: "\(.*\)"/\1/')
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: majordomus-control
+          platforms: ${{ matrix.platform }}
+          push: true
+          build-args: |
+            BUILD_FROM=ghcr.io/home-assistant/${{ matrix.ha_base }}-base:latest
+          tags: |
+            ${{ env.IMAGE_BASE }}-${{ matrix.arch }}:latest
+            ${{ env.IMAGE_BASE }}-${{ matrix.arch }}:${{ steps.version.outputs.version }}
+          cache-from: type=gha,scope=${{ matrix.arch }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.arch }}
+
+      - name: Clean up build context
+        if: always()
+        run: rm -rf majordomus-control/src majordomus-control/pom.xml

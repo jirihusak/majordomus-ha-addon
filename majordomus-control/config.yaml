@@ -1,0 +1,35 @@
+name: "Majordomus Control"
+version: "0.5.0"
+slug: majordomus_control
+description: "RS-485 to MQTT gateway for Majordomus smart home devices"
+url: "https://www.majordomus.tech"
+arch:
+  - aarch64
+  - amd64
+  - armv7
+  - armhf
+uart: true
+ports:
+  8899/tcp: 8899
+ports_description:
+  8899/tcp: "Web UI"
+webui: "http://[HOST]:[PORT:8899]"
+image: "ghcr.io/jirihusak/majordomus-control-{arch}"
+options:
+  mqtt_host: "core-mosquitto"
+  mqtt_port: 1883
+  mqtt_user: ""
+  mqtt_password: ""
+  mqtt_topic: "majordomus/"
+  ha_discovery: true
+  ha_topic: "homeassistant/"
+schema:
+  mqtt_host: str
+  mqtt_port: int
+  mqtt_user: str
+  mqtt_password: str
+  mqtt_topic: str
+  ha_discovery: bool
+  ha_topic: str
+map:
+  - config:rw

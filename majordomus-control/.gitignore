@@ -1,0 +1,3 @@
+# Build context files — added temporarily by build-local.sh / GitHub Actions
+src/
+pom.xml

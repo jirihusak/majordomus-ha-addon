@@ -1,0 +1,22 @@
+configuration:
+  mqtt_host:
+    name: MQTT Broker Host
+    description: Hostname or IP of your MQTT broker. Use "core-mosquitto" for the Mosquitto add-on.
+  mqtt_port:
+    name: MQTT Port
+    description: MQTT broker port (default 1883, or 8883 for TLS).
+  mqtt_user:
+    name: MQTT Username
+    description: Leave empty if no authentication is required.
+  mqtt_password:
+    name: MQTT Password
+    description: Leave empty if no authentication is required.
+  mqtt_topic:
+    name: MQTT Topic Prefix
+    description: All Majordomus messages will be published under this prefix (e.g. "majordomus/").
+  ha_discovery:
+    name: Home Assistant Discovery
+    description: Automatically register devices in Home Assistant via MQTT discovery.
+  ha_topic:
+    name: HA Discovery Topic
+    description: MQTT discovery prefix used by Home Assistant (default "homeassistant/").
