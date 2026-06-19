@@ -29,9 +29,6 @@ jobs:
           - arch: aarch64
             platform: linux/arm64
             ha_base: aarch64
-          - arch: armv7
-            platform: linux/arm/v7
-            ha_base: armv7
 
     steps:
       - name: Checkout add-on repo
