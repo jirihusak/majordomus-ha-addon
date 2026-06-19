@@ -5,7 +5,7 @@ ARG BUILD_FROM
 # Stage 1: Build the fat JAR with Maven
 # Source is copied into context by GitHub Actions (CI) or build-local.sh (local dev)
 # ──────────────────────────────────────────────
-FROM maven:3.9-eclipse-temurin-17-alpine AS builder
+FROM --platform=linux/amd64 maven:3.9-eclipse-temurin-17-alpine AS builder
 
 WORKDIR /build
 
