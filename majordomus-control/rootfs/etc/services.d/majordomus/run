@@ -1,0 +1,29 @@
+#!/usr/bin/with-contenv bashio
+
+# ── HAOS mode: read config from Supervisor ──────────────────────────────────
+if bashio::supervisor.ping 2>/dev/null; then
+    MQTT_HOST=$(bashio::config 'mqtt_host')
+    MQTT_PORT=$(bashio::config 'mqtt_port')
+    MQTT_USER=$(bashio::config 'mqtt_user')
+    MQTT_PASS=$(bashio::config 'mqtt_password')
+
+    export MQTT_BROKER="tcp://${MQTT_HOST}:${MQTT_PORT}"
+    export MQTT_USERNAME="${MQTT_USER}"
+    export MQTT_PASSWORD="${MQTT_PASS}"
+    export MQTT_TOPIC="$(bashio::config 'mqtt_topic')"
+    export HA_DISCOVERY="$(bashio::config 'ha_discovery')"
+    export HA_TOPIC="$(bashio::config 'ha_topic')"
+    export CONFIG_PATH="/config/majordomus-control/config.xml"
+
+    bashio::log.info "Starting Majordomus Control (HAOS mode)..."
+    bashio::log.info "MQTT broker: ${MQTT_BROKER}"
+else
+    # ── docker-compose mode: env vars already set via environment: ───────────
+    : "${CONFIG_PATH:=/config/majordomus-control/config.xml}"
+    echo "Starting Majordomus Control (standalone mode)..."
+    echo "MQTT broker: ${MQTT_BROKER}"
+fi
+
+mkdir -p "$(dirname "${CONFIG_PATH}")"
+
+exec java -jar /app/app.jar

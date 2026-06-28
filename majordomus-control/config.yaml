@@ -12,6 +12,8 @@ ports:
 ports_description:
   8899/tcp: "Web UI"
 webui: "http://[HOST]:[PORT:8899]"
+ingress: true
+ingress_port: 8899
 image: "ghcr.io/jirihusak/majordomus-control-{arch}"
 options:
   mqtt_host: "core-mosquitto"

@@ -30,8 +30,6 @@ WORKDIR /app
 # Copy the fat JAR produced by the builder stage
 COPY --from=builder /build/target/MajordomusControl-jar-with-dependencies.jar app.jar
 
-# Copy and prepare the start-up script
-COPY run.sh /run.sh
-RUN chmod +x /run.sh
-
-CMD ["/run.sh"]
+# Copy s6-overlay service definitions
+COPY rootfs /
+RUN chmod +x /etc/services.d/majordomus/run /etc/services.d/majordomus/finish
