@@ -15,6 +15,9 @@ ports_description:
 webui: "http://[HOST]:[PORT:8899]"
 ingress: true
 ingress_port: 8899
+ingress_entry: /index.html
+panel_icon: "mdi:size-m"
+panel_title: "Majordomus"
 image: "ghcr.io/jirihusak/majordomus-control-{arch}"
 options:
   mqtt_host: "core-mosquitto"
