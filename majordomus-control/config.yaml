@@ -1,4 +1,4 @@
-name: "Majordomus Control"
+name: "Majordomus"
 version: "0.5.0"
 slug: majordomus_control
 description: "RS-485 to MQTT gateway for Majordomus smart home devices"
@@ -6,6 +6,7 @@ url: "https://www.majordomus.tech"
 arch:
   - aarch64
   - amd64
+init: false
 uart: true
 ports:
   8899/tcp: 8899

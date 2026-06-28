@@ -33,5 +33,3 @@ COPY --from=builder /build/target/MajordomusControl-jar-with-dependencies.jar ap
 # Copy s6-overlay service definitions
 COPY rootfs /
 RUN chmod +x /etc/services.d/majordomus/run /etc/services.d/majordomus/finish
-
-CMD ["/init"]
