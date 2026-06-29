@@ -10,7 +10,6 @@ init: false
 uart: true
 ingress: true
 ingress_port: 8899
-ingress_entry: /
 panel_icon: "mdi:size-m"
 panel_title: "Majordomus"
 image: "ghcr.io/jirihusak/majordomus-control-{arch}"
