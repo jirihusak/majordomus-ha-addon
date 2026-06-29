@@ -1,4 +1,3 @@
 #!/usr/bin/execlineb -P
 
-# Bring down the container when the service exits
-s6-svscanctl -t /run/s6/services
+# Service exited — s6 will handle restart automatically for longrun services
