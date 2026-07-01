@@ -8,8 +8,11 @@ arch:
   - amd64
 init: false
 uart: true
+ports:
+  8899/tcp: null
 ingress: true
 ingress_port: 8899
+ingress_entry: /
 panel_icon: "mdi:size-m"
 panel_title: "Majordomus"
 image: "ghcr.io/jirihusak/majordomus-control-{arch}"
