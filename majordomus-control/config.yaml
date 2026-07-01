@@ -1,5 +1,5 @@
 name: "Majordomus"
-version: "0.5.0"
+version: "0.5.1"
 slug: majordomus_control
 description: "RS-485 to MQTT gateway for Majordomus smart home devices"
 url: "https://www.majordomus.tech"
@@ -12,7 +12,6 @@ ports:
   8899/tcp: null
 ingress: true
 ingress_port: 8899
-ingress_entry: /
 panel_icon: "mdi:size-m"
 panel_title: "Majordomus"
 image: "ghcr.io/jirihusak/majordomus-control-{arch}"
